@@ -7,14 +7,12 @@ import Command from './commands/index.js';
 import debug from './utils/debug.js';
 import handleGuildCreate from './events/guild-create.js';
 import handleVoiceStateUpdate from './events/voice-state-update.js';
-import handleGuildUpdate from './events/guild-update.js';
 import errorMsg from './utils/error-msg.js';
 import {isUserInVoice} from './utils/channels.js';
 import Config from './services/config.js';
 import {generateDependencyReport} from '@discordjs/voice';
 import {REST} from '@discordjs/rest';
 import {Routes} from 'discord-api-types/v9';
-import updatePermissionsForGuild from './utils/update-permissions-for-guild.js';
 import {ActivityTypes} from 'discord.js/typings/enums';
 
 @injectable()
@@ -162,10 +160,6 @@ export default class {
         status: this.config.BOT_STATUS as PresenceStatusData,
       });
 
-      // Update permissions
-      spinner.text = '📡 updating permissions...';
-      await Promise.all(this.client.guilds.cache.map(async guild => updatePermissionsForGuild(guild)));
-
       spinner.succeed(`Ready! Invite the bot with https://discordapp.com/oauth2/authorize?client_id=${this.client.user?.id ?? ''}&scope=bot%20applications.commands&permissions=36700288`);
     });
 
@@ -174,7 +168,6 @@ export default class {
 
     this.client.on('guildCreate', handleGuildCreate);
     this.client.on('voiceStateUpdate', handleVoiceStateUpdate);
-    this.client.on('guildUpdate', handleGuildUpdate);
 
     await this.client.login(this.token);
   }

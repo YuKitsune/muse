@@ -17,9 +17,7 @@ import SpotifyAPI from './services/spotify-api.js';
 // Comands
 import Command from './commands';
 import Clear from './commands/clear.js';
-import Config from './commands/config.js';
 import Disconnect from './commands/disconnect.js';
-import Favorites from './commands/favorites.js';
 import ForwardSeek from './commands/fseek.js';
 import Move from './commands/move.js';
 import NowPlaying from './commands/now-playing.js';
@@ -63,9 +61,7 @@ container.bind<SpotifyAPI>(TYPES.Services.SpotifyAPI).to(SpotifyAPI).inSingleton
 // Commands
 [
   Clear,
-  Config,
   Disconnect,
-  Favorites,
   ForwardSeek,
   Move,
   NowPlaying,
