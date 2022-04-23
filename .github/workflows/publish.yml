@@ -12,8 +12,12 @@ jobs:
     
     env:
       IMAGE_NAME: ghcr.io/yukitsune/muse:${{ github.sha }}
-
+        
     steps:
+    - name: Get current time
+      uses: josStorer/get-current-time@v2
+      id: current-time
+      
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: |
