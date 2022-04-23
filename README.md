@@ -1,3 +1,14 @@
+
+<h1 align="center">
+⚠️ This is an unofficial fork ⚠️
+</h1>
+
+In this fork, I've removed configuration and favorites, as they were causing a few issues when running in a Kubernetes cluster.
+
+If you're looking for the _real_ muse, please see the [official repo](https://github.com/codetheweb/muse).
+
+---
+
 <p align="center">
   <img width="250" height="250" src="https://raw.githubusercontent.com/codetheweb/muse/master/.github/logo.png">
 </p>
