@@ -5,6 +5,8 @@
 
 In this fork, I've removed configuration and favorites, as they were causing a few issues when running in a Kubernetes cluster.
 
+**This fork is not actively maintained!**
+
 If you're looking for the _real_ muse, please see the [official repo](https://github.com/codetheweb/muse).
 
 ---
