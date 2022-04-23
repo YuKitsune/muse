@@ -18,7 +18,6 @@ import {
 } from '@discordjs/voice';
 import FileCacheProvider from './file-cache.js';
 import debug from '../utils/debug.js';
-import {prisma} from '../utils/db.js';
 
 export enum MediaSource {
   Youtube,
@@ -255,22 +254,16 @@ export default class {
         this.audioPlayer?.stop();
         this.status = STATUS.IDLE;
 
-        const settings = await prisma.setting.findUnique({where: {guildId: this.guildId}});
+        // YuKitsune: Taken from defaults defined in schema.prisma
+        const secondsToWaitAfterQueueEmpties = 30;
 
-        if (!settings) {
-          throw new Error('Could not find settings for guild');
-        }
-
-        const {secondsToWaitAfterQueueEmpties} = settings;
-        if (secondsToWaitAfterQueueEmpties !== 0) {
-          this.disconnectTimer = setTimeout(() => {
-            // Make sure we are not accidentally playing
-            // when disconnecting
-            if (this.status === STATUS.IDLE) {
-              this.disconnect();
-            }
-          }, secondsToWaitAfterQueueEmpties * 1000);
-        }
+        this.disconnectTimer = setTimeout(() => {
+          // Make sure we are not accidentally playing
+          // when disconnecting
+          if (this.status === STATUS.IDLE) {
+            this.disconnect();
+          }
+        }, secondsToWaitAfterQueueEmpties * 1000);
       }
     } catch (error: unknown) {
       this.queuePosition--;
