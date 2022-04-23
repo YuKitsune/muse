@@ -23,7 +23,7 @@ jobs:
       run: |
         docker build \
           --file Dockerfile \
-          --build-arg COMMIT_HASH=${{ github.sha }}
+          --build-arg COMMIT_HASH=${{ github.sha }} \
           --build-arg BUILD_DATE=${{ steps.current-time.outputs.time }} \
           .
 
