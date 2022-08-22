@@ -10,7 +10,7 @@ import {
   AudioPlayerState,
   AudioPlayerStatus,
   createAudioPlayer,
-  createAudioResource,
+  createAudioResource, DiscordGatewayAdapterCreator,
   joinVoiceChannel,
   StreamType,
   VoiceConnection,
@@ -59,6 +59,7 @@ export default class {
   public voiceConnection: VoiceConnection | null = null;
   public status = STATUS.PAUSED;
   public guildId: string;
+  public loopCurrentSong = false;
 
   private queue: QueuedSong[] = [];
   private queuePosition = 0;
@@ -68,7 +69,6 @@ export default class {
   private lastSongURL = '';
 
   private positionInSeconds = 0;
-
   private readonly fileCache: FileCacheProvider;
   private disconnectTimer: NodeJS.Timeout | null = null;
 
@@ -81,7 +81,7 @@ export default class {
     this.voiceConnection = joinVoiceChannel({
       channelId: channel.id,
       guildId: channel.guild.id,
-      adapterCreator: channel.guild.voiceAdapterCreator,
+      adapterCreator: channel.guild.voiceAdapterCreator as DiscordGatewayAdapterCreator,
     });
   }
 
@@ -91,6 +91,7 @@ export default class {
         this.pause();
       }
 
+      this.loopCurrentSong = false;
       this.voiceConnection.destroy();
       this.audioPlayer?.stop();
 
@@ -449,7 +450,7 @@ export default class {
 
       // Don't cache livestreams or long videos
       const MAX_CACHE_LENGTH_SECONDS = 30 * 60; // 30 minutes
-      shouldCacheVideo = !info.player_response.videoDetails.isLiveContent && parseInt(info.videoDetails.lengthSeconds, 10) < MAX_CACHE_LENGTH_SECONDS && !options.seek && !options.to;
+      shouldCacheVideo = !info.player_response.videoDetails.isLiveContent && parseInt(info.videoDetails.lengthSeconds, 10) < MAX_CACHE_LENGTH_SECONDS && !options.seek;
 
       ffmpegInputOptions.push(...[
         '-reconnect',
@@ -516,6 +517,11 @@ export default class {
 
   private async onAudioPlayerIdle(_oldState: AudioPlayerState, newState: AudioPlayerState): Promise<void> {
     // Automatically advance queued song at end
+    if (this.loopCurrentSong && newState.status === AudioPlayerStatus.Idle && this.status === STATUS.PLAYING) {
+      await this.seek(0);
+      return;
+    }
+
     if (newState.status === AudioPlayerStatus.Idle && this.status === STATUS.PLAYING) {
       await this.forward(1);
     }
