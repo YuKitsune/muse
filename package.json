@@ -112,7 +112,7 @@
     "tsx": "3.8.2",
     "xbytes": "^1.7.0",
     "youtube.ts": "^0.2.9",
-    "ytdl-core": "^4.10.0",
+    "ytdl-core": "git+https://git@github.com/GreepTheSheep/node-ytdl-core.git",
     "ytsr": "^3.8.0"
   }
 }
