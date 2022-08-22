@@ -4,13 +4,13 @@ import {inject, injectable} from 'inversify';
 import PlayerManager from '../managers/player.js';
 import Command from '.';
 import {SlashCommandBuilder} from '@discordjs/builders';
-import {buildPlayingMessageEmbed} from '../utils/build-embed.js';
+import {STATUS} from '../services/player';
 
 @injectable()
 export default class implements Command {
   public readonly slashCommand = new SlashCommandBuilder()
-    .setName('unskip')
-    .setDescription('go back in the queue by one song');
+    .setName('loop')
+    .setDescription('toggle looping the current song');
 
   public requiresVC = true;
 
@@ -23,14 +23,12 @@ export default class implements Command {
   public async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     const player = this.playerManager.get(interaction.guild!.id);
 
-    try {
-      await player.back();
-      await interaction.reply({
-        content: 'back \'er up\'',
-        embeds: player.getCurrent() ? [buildPlayingMessageEmbed(player)] : [],
-      });
-    } catch (_: unknown) {
-      throw new Error('no song to go back to');
+    if (player.status === STATUS.IDLE) {
+      throw new Error('no song to loop!');
     }
+
+    player.loopCurrentSong = !player.loopCurrentSong;
+
+    await interaction.reply((player.loopCurrentSong ? 'looped :)' : 'stopped looping :('));
   }
 }
