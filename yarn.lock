@@ -4072,7 +4072,7 @@
     "miniget" "^4.2.2"
     "sax" "^1.1.3"
 
-"ytdl-core@https://github.com/GreepTheSheep/node-ytdl-core.git":
+"ytdl-core@git+https://git@github.com/GreepTheSheep/node-ytdl-core.git":
   "resolved" "git+ssh://git@github.com/GreepTheSheep/node-ytdl-core.git#17a77cbe7f3a9670d6536fba7cb3f574c6da596a"
   "version" "0.0.0-development"
   dependencies:
