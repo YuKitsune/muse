@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.7] - 2022-09-19
+### Fixed
+- Bumped ytdl-core
+
+## [2.1.6] - 2022-08-26
+### Changed
+- Now uses the `slim` variant of the official Node image to reduce image size by ~300 MB
+
+## [2.1.5] - 2022-08-26
+### Fixed
+- Bumped ytdl-core
+
 ## [2.1.4] - 2022-08-19
 ### Fixed
 - Switch from emso to [tsx](https://github.com/esbuild-kit/tsx) to fix ESM loader bug with recent Node.js versions
@@ -195,7 +207,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release
 
-[unreleased]: https://github.com/codetheweb/muse/compare/v2.1.4...HEAD
+[unreleased]: https://github.com/codetheweb/muse/compare/v2.1.7...HEAD
+[2.1.7]: https://github.com/codetheweb/muse/compare/v2.1.6...v2.1.7
+[2.1.6]: https://github.com/codetheweb/muse/compare/v2.1.5...v2.1.6
+[2.1.5]: https://github.com/codetheweb/muse/compare/v2.1.4...v2.1.5
 [2.1.4]: https://github.com/codetheweb/muse/compare/v2.1.3...v2.1.4
 [2.1.3]: https://github.com/codetheweb/muse/compare/v2.1.2...v2.1.3
 [2.1.2]: https://github.com/codetheweb/muse/compare/v2.1.1...v2.1.2
